@@ -1,86 +1,72 @@
-% -----------------------------------------------------------------------
-% File: CogSci_Template.bib
-% -----------------------------------------------------------------------
+%%% BibLaTeX %%%
 
-% Modified : Eli M. Silk (esilk at pitt.edu)            05/24/2005
-% Modified : David Noelle (dnoelle at ucmerced.edu)     11/19/2014
-
-
-@InProceedings{ChalnickBillman1988a,
-  author =	 {A. Chalnick and D. Billman},
-  title =	 {Unsupervised learning of correlational structure},
-  booktitle =	 {Proceedings of the Tenth Annual Conference of the
-                  Cognitive Science Society},
-  pages =	 {510--516},
-  year =	 1988,
-  address =	 {Hillsdale, NJ},
-  publisher =	 {Lawrence Erlbaum Associates}
+% Conference paper with URL
+@inproceedings{August2007,
+  author    = {August, Bingwen C. and Benally, Camila D. and Cadena, Daisuke E.},
+  title     = {Example conference paper},
+  booktitle = {Proceedings of the Annual Meeting of the Cognitive Science Society},
+  volume    = {29},
+  date      = {2007},
+  pages     = {100--105},
+  url       = {https://escholarship.org/uc/item/k0e1y2}
 }
 
-@InCollection{Feigenbaum1963a,
-  author =	 {E. A. Feigenbaum},
-  title =	 {The simulation of verbal learning behavior},
-  booktitle =	 {Computers and thought},
-  publisher =	 {McGraw-Hill},
-  year =	 1963,
-  editor =	 {E. A. Feigenbaum and J. Feldman},
-  address =	 {New York}
+% Journal article with DOI
+@article{DaphneEcho2022,
+  author       = {Daphne, Ellie F. and Echo, Fernando G.},
+  title        = {Example journal article},
+  journaltitle = {Journal of Example Studies},
+  date         = {2022},
+  volume       = {10},
+  number       = {3},
+  pages        = {200--215},
+  doi          = {10.1234/example.article}
 }
 
-@Article{Hill1983a,
-  author =	 {J. A. C. Hill},
-  title =	 {A computational model of language acquisition in the
-                  two-year old},
-  journal =	 {Cognition and Brain Theory},
-  year =	 1983,
-  volume =	 6,
-  pages =	 {287--317}
+% Technical report
+@report{FitzgeraldGalli1985,
+  author      = {Fitzgerald, Guadalupe H. and Galli, Hind I.},
+  title       = {Example technical report},
+  institution = {Example University, Department of Example Studies},
+  date        = {1985},
+  number      = {EX-TR-85-1},
+  type        = {Report}
 }
 
-@TechReport{OhlssonLangley1985a,
-  author =	 {S. Ohlsson and P. Langley},
-  title =	 {Identifying solution paths in cognitive diagnosis},
-  institution =	 {Carnegie Mellon University, The Robotics Institute},
-  year =	 1985,
-  address =	 {Pittsburgh, PA},
-  number =	 {CMU-RI-TR-85-2}
+% Doctoral dissertation
+% Workaround for biblatex-apa bug: use `titleaddon = {Doctoral dissertation, ...}` rather than `type = {phdthesis}, institution = {...}` for correct bracket formatting
+@thesis{Hakuole2001,
+  author     = {Hakuole, Indra J.},
+  title      = {Example thesis title},
+  titleaddon = {Doctoral dissertation, {E}xample {U}niversity},
+  date       = {2001}
 }
 
-@PhdThesis{Matlock2001,
-  author =	 {Teenie Matlock},
-  title =	 {How real is fictive motion?},
-  school =	 {Psychology Department, University of California,
-                  Santa Cruz},
-  year =	 2001,
-  type =	 {Doctoral dissertation}
+% Chapter in edited book
+@incollection{Issa1963,
+  author    = {Issa, Jin K.},
+  title     = {Example book chapter in an edited volume},
+  booktitle = {Example edited volume title},
+  editor    = {Juliet, Kaya L. and Kapoor, Liwei M.},
+  publisher = {Example Academic Press},
+  date      = {1963},
+  pages     = {300--315}
 }
 
-@PhdThesis{Lewis1978a,
-  author =	 {C. Lewis},
-  title =	 {Production system models of practice effects},
-  school =	 {Department of Psychology, University of Michigan,
-                  Ann Arbor},
-  year =	 1978,
-  type =	 {Doctoral dissertation}
+% Edited volume
+@collection{Lobsang2023,
+  editor    = {Lobsang, Mingyur N.},
+  title     = {Example edited volume title},
+  date      = {2023},
+  edition   = {2},
+  publisher = {Example University Press},
+  doi       = {10.4321/example.volume}
 }
 
-@Book{NewellSimon1972a,
-  author =	 {A. Newell and H. A. Simon},
-  title =	 {Human problem solving},
-  publisher =	 {Prentice-Hall},
-  year =	 1972,
-  address =	 {Englewood Cliffs, NJ}
+% Authored book
+@book{MitanniNovember1972,
+  author    = {Mitanni, Nayeli O. and November, Olumide P.},
+  title     = {Example book title},
+  publisher = {Example Publisher},
+  date      = {1972}
 }
-
-@Book{ShragerLangley1990a,
-  editor =	 {J. Shrager and P. Langley},
-  title =	 {Computational models of scientific discovery and
-                  theory formation},
-  publisher =	 {Morgan Kaufmann},
-  year =	 1990,
-  address =	 {San Mateo, CA}
-}
-
-% -----------------------------------------------------------------------
-% Document End
-% -----------------------------------------------------------------------

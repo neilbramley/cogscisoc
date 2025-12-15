@@ -1,77 +1,75 @@
-% BibLaTeX version of CogSci_Template.bib
+%%% BibLaTeX %%%
 
-
-@InProceedings{ChalnickBillman1988a,
-  author =       {A. Chalnick and D. Billman},
-  title =        {Unsupervised learning of correlational structure},
-  booktitle =    {Proceedings of the Tenth Annual Conference of the Cognitive Science Society},
-  pages =        {510--516},
-  date =         1988,
-  location =     {Hillsdale, NJ},
-  publisher =    {Lawrence Erlbaum Associates}
+% Conference paper with URL
+@inproceedings{August2007,
+  author    = {August, Bingwen C. and Benally, Camila D. and Cadena, Daisuke E.},
+  title     = {Example conference paper},
+  booktitle = {Proceedings of the Annual Meeting of the Cognitive Science Society},
+  volume    = {29},
+  date      = {2007},
+  pages     = {100--105},
+  url       = {https://escholarship.org/uc/item/k0e1y2}
 }
 
-% NOTE: Using @InBook instead of @InCollection to avoid Typst APA style bug
-% that duplicates the booktitle. See: https://forum.typst.app/t/why-does-incollection-write-the-booktitle-twice-in-the-bibliography-using-the-apa-style/3626
-@InBook{Feigenbaum1963a,
-  author =       {E. A. Feigenbaum},
-  title =        {The simulation of verbal learning behavior},
-  booktitle =    {Computers and thought},
-  publisher =    {McGraw-Hill},
-  date =         1963,
-  editor =       {E. A. Feigenbaum and J. Feldman},
-  location =     {New York}
+% Journal article with DOI
+@article{DaphneEcho2022,
+  author       = {Daphne, Ellie F. and Echo, Fernando G.},
+  title        = {Example journal article},
+  journaltitle = {Journal of Example Studies},
+  date         = {2022},
+  volume       = {10},
+  number       = {3},
+  pages        = {200--215},
+  doi          = {10.1234/example.article}
 }
 
-@Article{Hill1983a,
-  author =       {J. A. C. Hill},
-  title =        {A computational model of language acquisition in the two-year old},
-  journaltitle = {Cognition and Brain Theory},
-  date =         1983,
-  volume =       6,
-  pages =        {287--317}
+% Technical report
+% Hayagriva (v0.9.1), Typst's bibliography backend, ignores the 'institution' field; use 'publisher' instead
+@report{FitzgeraldGalli1985,
+  author      = {Fitzgerald, Guadalupe H. and Galli, Hind I.},
+  title       = {Example technical report},
+  publisher   = {Example University, Department of Example Studies},
+  date        = {1985},
+  number      = {EX-TR-85-1},
+  type        = {Report}
 }
 
-@Report{OhlssonLangley1985a,
-  author =       {S. Ohlsson and P. Langley},
-  title =        {Identifying solution paths in cognitive diagnosis},
-  institution =  {Carnegie Mellon University, The Robotics Institute},
-  date =         1985,
-  location =     {Pittsburgh, PA},
-  number =       {CMU-RI-TR-85-2},
-  type =         {Technical Report}
+% Doctoral dissertation
+% Hayagriva (v0.9.1) ignores the 'institution' field; use 'publisher' instead
+% Hayagriva (v0.9.1) limitation: institution appears after brackets, not inside
+@thesis{Hakuole2001,
+  author     = {Hakuole, Indra J.},
+  title      = {Example thesis title},
+  type       = {Doctoral dissertation},
+  publisher  = {Example University},
+  date       = {2001}
 }
 
-@Thesis{Matlock2001,
-  author =       {Teenie Matlock},
-  title =        {How real is fictive motion?},
-  institution =  {University of California, Santa Cruz},
-  publisher =    {University of California, Santa Cruz},
-  date =         2001,
-  type =         {Doctoral dissertation}
+% Chapter in edited book
+@inbook{Issa1963,
+  author    = {Issa, Jin K.},
+  title     = {Example book chapter in an edited volume},
+  booktitle = {Example edited volume title},
+  editor    = {Juliet, Kaya L. and Kapoor, Liwei M.},
+  publisher = {Example Academic Press},
+  date      = {1963},
+  pages     = {300--315}
 }
 
-@Thesis{Lewis1978a,
-  author =       {C. Lewis},
-  title =        {Production system models of practice effects},
-  institution =  {University of Michigan},
-  publisher =    {University of Michigan},
-  date =         1978,
-  type =         {Doctoral dissertation}
+% Edited volume
+@book{Lobsang2023,
+  editor    = {Lobsang, Mingyur N.},
+  title     = {Example edited volume title},
+  date      = {2023},
+  edition   = {2},
+  publisher = {Example University Press},
+  doi       = {10.4321/example.volume}
 }
 
-@Book{NewellSimon1972a,
-  author =       {A. Newell and H. A. Simon},
-  title =        {Human problem solving},
-  publisher =    {Prentice-Hall},
-  date =         1972,
-  location =     {Englewood Cliffs, NJ}
-}
-
-@Book{ShragerLangley1990a,
-  editor =       {J. Shrager and P. Langley},
-  title =        {Computational models of scientific discovery and theory formation},
-  publisher =    {Morgan Kaufmann},
-  date =         1990,
-  location =     {San Mateo, CA}
+% Authored book
+@book{MitanniNovember1972,
+  author    = {Mitanni, Nayeli O. and November, Olumide P.},
+  title     = {Example book title},
+  publisher = {Example Publisher},
+  date      = {1972}
 }
