@@ -1,17 +1,15 @@
 //
 // Annual Cognitive Science Conference
-// Sample Typst Paper -- Proceedings Format
+// Sample Typst Two-Page Summary -- Proceedings Format
 //
 
 #import "@preview/cogsci-conference:0.1.2": cogsci, format-authors
-
-#let anonymize = true // Set to false for the final submission
 
 #let hyphenate = true // Set to false to disable hyphenation (useful for proofreading)
 
 
 #show: cogsci.with(
-  title: [How to Make a Proceedings Paper Submission],
+  title: [How to Make a Proceedings Short Summary Submission],
   author-info: format-authors(
     authors: (
       (
@@ -29,24 +27,20 @@
       (super: [2], affil: [Department of Example Studies, University of Demonstrations]),
     ),
   ),
-  abstract: [
-    Include no author information in the initial submission, to facilitate blind review. AI tools cannot be listed as authors, and authors retain full responsibility for the accuracy, integrity, and originality of all content in their manuscripts. This includes verifying factual claims, ensuring proper attribution of ideas, and confirming that the work meets standards for academic integrity and does not contain plagiarized content. See the Acknowledgments section of the template for AI use declaration and acknowledgment. The abstract should be one paragraph, no more than 150~words, indented 1/8~inch on both sides, in 9~point font with single spacing. The heading "*Abstract*" should be 10~point, bold, centered, with one line of space below it. This one-paragraph abstract section is required only for standard proceedings papers. Following the abstract should be a blank line, followed by the header "*Keywords:*" and a list of descriptive keywords separated by semicolons, all in 9~point font, as shown below.
-  ],
   keywords: (
     "add your choice of indexing terms or keywords",
     "kindly use a semicolon",
     "between each term",
   ),
-  anonymize: anonymize,
   hyphenate: hyphenate,
 )
 
 
 = General Formatting Instructions
 
-The paper can be no longer than six pages plus an unlimited number of pages for references in the *initial submission*. In the *final submission*, the text of the paper, including an author line, must fit on six pages. An unlimited number of pages can be used for acknowledgments and references.
+The entire contribution of a short summary submission (including figures, references, and anything else) can be no longer than two pages. This short summary format is to be used for workshop and tutorial descriptions and symposia. Unlike the 6-page research papers, short summary submissions are never anonymized, and should not begin with a separate abstract. Prior to the first section of the short summary, there should be the header "*Keywords:*" followed by a list of descriptive keywords separated by semicolons, all in 9~point font, as shown above.
 
-The *title* should be in 14~point bold font, centered. The title should be formatted with initial caps (the first letter of content words capitalized and the rest lower case). In the *initial submission*, leave one space below the title and on the next line include the phrase "Anonymous CogSci submission", centered, in 11~point bold font. In the *final submission*, leave one space below the title, then list author names (on one line, though if there are many authors this will continue on subsequent lines) in 11~point bold font, and centered, with superscript numerals that will correspond to author affiliation. The *corresponding author's* email address and no other email addresses should be placed in parentheses next to their name in the author list. Starting on the next line, list authors' affiliations using the corresponding superscript numeral and including only the department/unit and organization in ordinary 10~point type, one affiliation per line.
+The *title* should be in 14~point bold font, centered. The title should be formatted with initial caps (the first letter of content words capitalized and the rest lower case). Leave one space below the title, then list author names (on one line, though if there are many authors this will continue on subsequent lines) in 11~point bold font, and centered, with superscript numerals that will correspond to author affiliation. The *corresponding author's* email address and no other email addresses should be placed in parentheses next to their name in the author list. Starting on the next line, list authors' affiliations using the corresponding superscript numeral and including only the department/unit and organization in ordinary 10~point type, one affiliation per line.
 
 The text of the paper should be formatted in two columns with an overall width of 7~inches (17.8~cm) and length of 9.25~inches (23.5~cm), with 0.25~inches between the columns. Leave two line spaces between the last author affiliation and the text of the paper; the text of the paper (starting with the abstract) should begin no less than 2.75~inches below the top of the page. The left margin should be 0.75~inches and the top margin should be 1~inch. *The right and bottom margins will depend on whether you use U.S. letter or A4 paper, so you must be sure to measure the width of the printed text*. Use 10~point Times Roman with 12~point vertical spacing, unless otherwise specified.
 
@@ -113,7 +107,7 @@ All artwork must be very dark for purposes of reproduction and should not be han
 
 = Acknowledgments
 
-In the *initial submission*, please only include acknowledgments of AI use and no other acknowledgments to preserve anonymity. Regarding AI use: Authors may use AI tools when developing their projects and preparing their manuscripts, but such use must be described, transparently and in detail, in either the Methods or Acknowledgments section, as appropriate. Tools that are used to improve spelling, grammar, and general editing are not included in the scope of these guidelines. In the *final submission*, place acknowledgments (including human and AI contributions, and funding information) in a section *at the end of the paper*.
+Place acknowledgments (including funding information) in a section *at the end of the paper*.
 
 
 = References Instructions
