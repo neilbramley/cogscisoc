@@ -1,0 +1,412 @@
+%%----------------------------------------------------------------------
+%% cogsci.sty
+%% Style file for the Annual Meeting of the Cognitive Science Society
+%%----------------------------------------------------------------------
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{cogsci}[2025/12/01 v2.0 CogSci Conference Style]
+
+%%======================================================================
+%% USAGE
+%%======================================================================
+%%
+%% Basic setup:
+%%
+%%   \documentclass[10pt]{article}
+%%   \usepackage{cogsci}
+%%
+%%----------------------------------------------------------------------
+%% PACKAGE OPTIONS
+%%----------------------------------------------------------------------
+%%
+%% Pass options when loading the package:
+%%
+%%   \usepackage[<options>]{cogsci}
+%%
+%% Available options:
+%%
+%%   authblk            Use authblk package for authors/affiliations (default)
+%%   customauthors      Disable authblk; pass manually-formatted content using \author{}
+%%
+%%----------------------------------------------------------------------
+%% USER COMMANDS
+%%----------------------------------------------------------------------
+%%
+%% Submission mode commands (place in preamble):
+%%
+%%   \cogscifinalcopy
+%%       Mark as final (camera-ready) submission. Shows author names.
+%%       Omit this command for anonymous review submission.
+%%
+%%   \twopagesummarysubmission
+%%       Mark as two-page summary submission. Shows author names and omits the "Abstract" heading.
+%%
+%%----------------------------------------------------------------------
+%% AUTHOR/AFFILIATION SYNTAX
+%%----------------------------------------------------------------------
+%%
+%% Default (using authblk package):
+%%
+%%   \author[1]{\mbox{Author N. One (a1@uni.edu)}}
+%%   \author[2]{\mbox{Author Number Two}}
+%%   \affil[1]{Department of Hypothetical Sciences, University of Illustrations}
+%%   \affil[2]{Department of Example Studies, University of Demonstrations}
+%%
+%%   Note: Only the corresponding author should include an email.
+%%
+%% With customauthors option:
+%%
+%%   \author{
+%%     {\large\bfseries Author N. One (a1@uni.edu)$^1$ \& Author Number Two$^2$} \\
+%%     {\normalsize\normalfont
+%%       $^1$Department of Hypothetical Sciences, University of Illustrations \\
+%%       $^2$Department of Example Studies, University of Demonstrations
+%%     }
+%%   }
+%%
+%%======================================================================
+
+%%======================================================================
+%% IMPLEMENTATION
+%%======================================================================
+
+%%----------------------------------------------------------------------
+%% Option processing (LaTeX3)
+%%----------------------------------------------------------------------
+%% Uses kernel key processing (LaTeX >= 2022-06-01) with fallback for
+%% older distributions via l3keys2e.
+
+\ExplSyntaxOn
+
+%% Internal boolean flags
+\bool_new:N \g_cogsci_manualauthorformatting_bool  % true = disable authblk
+\bool_new:N \g_cogsci_final_bool                   % true = show authors
+\bool_new:N \g_cogsci_twopagesummary_bool          % true = two-page mode
+
+%% Define package options
+\keys_define:nn { cogsci }
+{
+  %% customauthors: enable manual author formatting (disable authblk)
+  customauthors .bool_gset:N = \g_cogsci_manualauthorformatting_bool,customauthors .default:n = true,%
+
+  %% authblk: explicitly use authblk package (default behavior, sets flag false)
+  authblk .code:n = { \bool_gset_false:N \g_cogsci_manualauthorformatting_bool },authblk
+  .value_forbidden:n = true,}\ExplSyntaxOff
+
+%% Process options (with fallback for older LaTeX)
+\IfFormatAtLeastTF { 2022-06-01 }%
+{ \ProcessKeyOptions [ cogsci ] }%
+{ \RequirePackage { l3keys2e } \ProcessKeysOptions { cogsci } }
+
+%%----------------------------------------------------------------------
+%% User commands: submission mode
+%%----------------------------------------------------------------------
+
+\ExplSyntaxOn
+%% \cogscifinalcopy directive
+\NewDocumentCommand { \cogscifinalcopy } { }
+{ \bool_gset_true:N \g_cogsci_final_bool }
+
+%% \twopagesummarysubmission directive
+\NewDocumentCommand { \twopagesummarysubmission } { }
+{ \bool_gset_true:N \g_cogsci_twopagesummary_bool }
+\ExplSyntaxOff
+
+%%----------------------------------------------------------------------
+%% Internal: author display logic
+%%----------------------------------------------------------------------
+%% display authors or anonymous placeholder
+
+\ExplSyntaxOn
+\cs_new_protected:Npn \__cogsci_show_author_or_anon:
+{
+  \bool_if:NTF \g_cogsci_final_bool
+  { \@author }
+  {
+    \bool_if:NTF \g_cogsci_twopagesummary_bool
+    { \@author }
+    { { \large \bfseries Anonymous~ CogSci~ submission } }
+  }
+}
+%% Wrapper for use in \@maketitle (outside expl3 syntax)
+\cs_new_eq:NN \cogsci@showauthor \__cogsci_show_author_or_anon:
+\ExplSyntaxOff
+
+%%----------------------------------------------------------------------
+%% Author/affiliation formatting (authblk)
+%%----------------------------------------------------------------------
+%% Loads authblk package unless customauthors option is set.
+
+\ExplSyntaxOn
+\bool_if:NF \g_cogsci_manualauthorformatting_bool
+{
+  \RequirePackage{authblk}
+  \renewcommand\Authfont{\large\bfseries}           % 11pt bold for author names
+  \renewcommand\Affilfont{\normalsize\normalfont}   % 10pt normal for affiliations
+  \renewcommand\Authsep{,~}                         % comma separator between authors
+  \renewcommand\Authand{~\&~}                       % ampersand between two authors
+  \renewcommand\Authands{~\&~}                      % ampersand before last author (no comma)
+  \setlength{\affilsep}{0pt}                        % no extra vertical space between authors and affiliations
+}
+\ExplSyntaxOff
+
+%%----------------------------------------------------------------------
+%% Page layout
+%%----------------------------------------------------------------------
+%% Margins: 0.75in left, 1in top
+%% Text area: 7in x 9.25in
+
+\setlength\oddsidemargin{-0.25in}
+
+% BOTTOM MARGIN / DESCENDER HANDLING
+% -----------------------------------
+% Problem: The last line's descenders (g, y, p, q, subscripts) extend below its
+% baseline. Without compensation, descenders would exceed the 9.25in text area.
+%
+% Solution: Reserve space for descenders via \maxdepth, then subtract from textheight.
+%   - \maxdepth: Maximum depth LaTeX allows for the last line on a page.
+%     Standard LaTeX sets this to 0.5\topskip, but since we set topskip≈0 (see below),
+%     we must set it explicitly.
+%   - 5pt accommodates: 10pt body (~3pt), 12pt headings (~3.6pt), 9pt footnotes (~2.7pt),
+%     plus buffer for subscripts and math.
+%   - textheight is reduced by maxdepth so total ink (baseline + descenders) fits in 9.25in.
+\setlength\maxdepth{3pt}
+\setlength\textheight{9.25in}
+\addtolength\textheight{-\maxdepth}
+
+\setlength\textwidth{7in}
+
+\setlength\columnsep{0.25in}
+
+\setlength\headheight{0pt}
+\setlength\headsep{0pt}
+
+\setlength\topmargin{0in}
+
+% TOP MARGIN / FIRST LINE POSITIONING
+% ------------------------------------
+% Problem: By default, LaTeX's \topskip (10pt) pushes the first baseline down from
+% the top of the text area. This caused text to start ~3pt too low (measured at
+% 1.044in instead of 1.00in from page top).
+%
+% Solution: Set \topskip to effectively zero, so the first baseline aligns with
+% the top of the text area.
+%   - Using 0.01pt instead of exactly 0pt to avoid a known LaTeX output routine bug.
+%     (Leslie Lamport's bug list: "Setting \topskip to 0pt does weird things.")
+%   - This positions the first line's baseline at the text area top; ascenders
+%     extend upward from there into the top margin space.
+\setlength\topskip{0.01pt}
+
+\setlength\footskip{0pt}
+%\setlength\footheight{0pt}
+
+\thispagestyle{empty}
+\pagestyle{empty}
+\flushbottom
+\twocolumn
+\sloppy
+
+%% Set the starting page
+\newcommand{\startpage}[1]{\setcounter{page}{#1}}
+
+%% Disable table of contents (not used in conference papers)
+\def\addcontentsline#1#2#3{}
+
+%%----------------------------------------------------------------------
+%% Title block
+%%----------------------------------------------------------------------
+%% Minimum height 1.75in from top margin to body text.
+%% Body text starts at least 2.75in from top of page (1in margin + 1.75in titlebox).
+%% Titlebox grows to fit content; always maintains 24pt buffer before body.
+
+\newlength\titlebox
+\setlength\titlebox{1.75in}
+
+% Title
+\def\maketitle{\par
+  \begingroup
+  \twocolumn[\@maketitle] \@thanks
+  \endgroup
+  \let\maketitle\relax \let\@maketitle\relax
+  \gdef\@thanks{}\gdef\@author{}\gdef\@title{}\let\thanks\relax}
+
+% Titlebox
+\def\@maketitle{%
+  \setbox\@tempboxa=\vbox{%
+    \linewidth\hsize
+    \centering
+    {\LARGE\bfseries \@title \par}%
+    \vskip 1em%
+    \cogsci@showauthor
+    \vskip 24pt\relax% minimum 24pt buffer before body text
+  }%
+  \ifdim\ht\@tempboxa<\titlebox
+    \vbox to\titlebox{\unvbox\@tempboxa\vfill}%
+  \else
+    \box\@tempboxa
+  \fi
+}
+
+%%----------------------------------------------------------------------
+%% Abstract environment
+%%----------------------------------------------------------------------
+%% Full paper: "Abstract" heading (10pt bold centered) + body (9pt, 1/8in margins)
+%% Two-page summary: No heading, just body with margins
+
+\ExplSyntaxOn
+\renewenvironment{abstract}
+{
+  \bool_if:NF \g_cogsci_twopagesummary_bool
+  {
+    \centerline{\normalsize\bfseries Abstract}
+    \vskip 1em
+  }
+  \begin{list}{}{%
+      \setlength{\leftmargin}{0.125in}%
+      \setlength{\rightmargin}{0.125in}%
+      \setlength{\topsep}{0pt}%
+      \setlength{\partopsep}{0pt}%
+      \setlength{\itemsep}{0pt}%
+      \setlength{\parsep}{10pt}% one blank line (matches 9/10 baselineskip)
+    }\item\relax
+          \small
+          }
+          {\par
+  \end{list}
+}
+\ExplSyntaxOff
+
+%%----------------------------------------------------------------------
+%% Section headings
+%%----------------------------------------------------------------------
+%% @startsection parameters:
+%%   beforeskip: negative = suppress indent on first para; |value| = space above
+%%   afterskip:  positive = space below; negative = run-in heading
+%%
+%% NOTE: When beforeskip is negative, plus/minus glue is also negated, so use negative values
+%%
+%% NB: Actual rendered space is NOT just the skip value.
+%% Font size transitions add extra space based on baselineskip differences.
+%%
+%% BEFORESKIP (body -> heading, switching to larger font):
+%%   actual_space = beforeskip + (heading_baselineskip - body_font_size)
+%%   To achieve 12pt above: beforeskip = 12pt - heading_baselineskip + 10pt
+%%
+%%   Level 1 (\Large):      12pt font, 15pt baselineskip => 12 - 15 + 10 = 7pt
+%%   Level 2 (\large):      11pt font, 13pt baselineskip => 12 - 13 + 10 = 9pt
+%%   Level 3 (\normalsize): 10pt font, 12pt baselineskip => 12 - 12 + 10 = 10pt
+%%
+%% AFTERSKIP (heading -> body, switching to smaller font):
+%%   actual_space = afterskip + (body_baselineskip - heading_font_size)
+%%   To achieve 3pt below: afterskip = 3pt - body_baselineskip + heading_font_size
+%%
+%%   Level 1 (\Large):  12pt font => 3 - 12 + 12 = 3pt
+%%   Level 2 (\large):  11pt font => 3 - 12 + 11 = 2pt
+%%   Level 3: uses negative afterskip for run-in style
+\def\section{\@startsection{section}{1}{\z@}%
+  {-7pt plus -3pt minus -0pt}%    % 12pt above: 12 - (15 - 10) = 7pt
+  {3pt plus 2pt minus 0pt}%       % 3pt below:  3 - (12 - 12) = 3pt
+  {\Large\bfseries\centering}}
+
+\def\subsection{\@startsection{subsection}{2}{\z@}%
+  {-9pt plus -3pt minus -0pt}%    % 12pt above: 12 - (13 - 10) = 9pt
+  {2pt plus 2pt minus 0pt}%       % 3pt below:  3 - (12 - 11) = 2pt
+  {\large\bfseries\raggedright}}
+
+\def\subsubsection{\@startsection{subparagraph}{3}{\z@}%
+  {-9pt plus -3pt minus -0pt}%    % 12pt above: 12 - (12 - 10) = 10pt; however, for some reason, 9pt empirically fits better than 10pt
+  {-1em}%                         % run-in heading (negative = inline with following text)
+  {\normalsize\bfseries}}
+
+\setcounter{secnumdepth}{0}
+
+%%----------------------------------------------------------------------
+%% Footnotes
+%%----------------------------------------------------------------------
+
+\footnotesep=6.65pt
+\skip\footins=9pt plus 4pt minus 2pt
+\def\footnoterule{\kern-3pt \hrule width 5pc \kern 2.6pt}
+\setcounter{footnote}{0}
+
+%%----------------------------------------------------------------------
+%% Lists and paragraphs
+%%----------------------------------------------------------------------
+
+\parindent=0.125in
+\topsep=4pt plus 1pt minus 2pt
+\partopsep=1pt plus 0.5pt minus 0.5pt
+\itemsep=1pt plus 1pt minus 0.5pt
+\parsep=1pt plus 1pt minus 0.5pt
+
+\leftmargin=10pt
+\leftmargini=\leftmargin
+\leftmarginii=10pt
+\leftmarginiii=5pt
+\leftmarginiv=5pt
+\leftmarginv=5pt
+\leftmarginvi=5pt
+\labelsep=5pt
+\labelwidth=\leftmargini
+\advance\labelwidth by -\labelsep
+
+\def\@listi{\leftmargin=\leftmargini}
+\def\@listii{%
+  \leftmargin=\leftmarginii
+  \labelwidth=\leftmarginii
+  \advance\labelwidth by -\labelsep
+  \topsep=2pt plus 1pt minus 0.5pt
+  \parsep=1pt plus 0.5pt minus 0.5pt
+  \itemsep=\parsep}
+\def\@listiii{%
+  \leftmargin=\leftmarginiii
+  \labelwidth=\leftmarginiii
+  \advance\labelwidth by -\labelsep
+  \topsep=1pt plus 0.5pt minus 0.5pt
+  \parsep=\z@
+  \partopsep=0.5pt plus 0pt minus 0.5pt
+  \itemsep=\topsep}
+\def\@listiv{%
+  \leftmargin=\leftmarginiv
+  \labelwidth=\leftmarginiv
+  \advance\labelwidth by -\labelsep}
+\def\@listv{%
+  \leftmargin=\leftmarginv
+  \labelwidth=\leftmarginv
+  \advance\labelwidth by -\labelsep}
+\def\@listvi{%
+  \leftmargin=\leftmarginvi
+  \labelwidth=\leftmarginvi
+  \advance\labelwidth by -\labelsep}
+
+%%----------------------------------------------------------------------
+%% Display math spacing
+%%----------------------------------------------------------------------
+
+\abovedisplayskip=7pt plus 2pt minus 5pt
+\belowdisplayskip=\abovedisplayskip
+\abovedisplayshortskip=0pt plus 3pt
+\belowdisplayshortskip=4pt plus 3pt minus 3pt
+
+%%----------------------------------------------------------------------
+%% Font sizes
+%%----------------------------------------------------------------------
+%% Body text: 10pt with 12pt baselineskip
+%% Font size definitions (updated from LaTeX 2.09 \@setsize to LaTeX2e \@setfontsize)
+%% \@setfontsize takes 3 args: command name, font size, baselineskip
+
+\renewcommand\normalsize{\@setfontsize\normalsize{10}{12}}
+\renewcommand\small{\@setfontsize\small{9}{10}}
+\renewcommand\footnotesize{\@setfontsize\footnotesize{9}{10}}
+\renewcommand\scriptsize{\@setfontsize\scriptsize{7}{8}}
+\renewcommand\tiny{\@setfontsize\tiny{6}{7}}
+\renewcommand\large{\@setfontsize\large{11}{13}}
+\renewcommand\Large{\@setfontsize\Large{12}{15}}
+\renewcommand\LARGE{\@setfontsize\LARGE{14}{17}}
+\renewcommand\huge{\@setfontsize\huge{17}{20}}
+\renewcommand\Huge{\@setfontsize\Huge{20}{23}}
+\normalsize
+
+%%----------------------------------------------------------------------
+%% End of cogsci.sty
+%%----------------------------------------------------------------------
