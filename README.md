@@ -26,8 +26,8 @@ Files in the [`latex/`](latex/) directory include:
 
 - [`cogsci_full_paper_template.tex`](latex/cogsci_full_paper_template.tex) — 6-page full paper template ([anonymized PDF](latex/cogsci_full_paper_template_anonymized.pdf), [deanonymized PDF](latex/cogsci_full_paper_template_deanonymized.pdf))
 - [`cogsci_2page_short_summary_template.tex`](latex/cogsci_2page_short_summary_template.tex) — 2-page short summary template ([PDF](latex/cogsci_2page_short_summary_template.pdf))
-- [`cogsci.sty`](latex/cogsci.sty) — style file
 - [`cogsci_bibliography_template.bib`](latex/cogsci_bibliography_template.bib) — example BibLaTeX bibliography
+- [`cogsci.sty`](latex/cogsci.sty) — style file (used by the .tex files; you shouldn't modify it)
 
 **Anonymization:** The full paper template anonymizes authors by default. Use `\cogscifinalcopy` to deanonymize the final camera-ready version.
 
@@ -51,7 +51,7 @@ Templates require the fonts [TeX Gyre Termes](https://www.gust.org.pl/projects/e
 
 ### Typst Web App
 
-The [`cogsci-conference`](https://typst.app/universe/package/cogsci-conference) template is available in the [Typst web app](https://typst.app/). To use it, click "Start from template" on the dashboard and search for `cogsci-conference`. If you don't see the dashboard when you visit <https://typst.app/>, you need to create and/or log in to an account.
+The `cogsci-conference` template is available in the [Typst web app](https://typst.app/). To use it, click the "**Create project in app**" button on the [Typst Universe `cogsci-conference` page](https://typst.app/universe/package/cogsci-conference).
 
 ### Local Usage
 
