@@ -71,6 +71,14 @@
 %%======================================================================
 
 %%----------------------------------------------------------------------
+%% Package option pass-through
+%%----------------------------------------------------------------------
+%% Pre-configure optional packages that users may load.
+%% Disables protrusion to prevent characters from exceeding margin boundaries.
+
+\PassOptionsToPackage{protrusion=false}{microtype}
+
+%%----------------------------------------------------------------------
 %% Option processing (LaTeX3)
 %%----------------------------------------------------------------------
 %% Uses kernel key processing (LaTeX >= 2022-06-01) with fallback for
