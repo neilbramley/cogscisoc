@@ -78,10 +78,10 @@ Specifying a [PDF standard](https://typst.app/docs/reference/pdf/#pdf-standards)
 
 Files in the [`word/`](word/) directory include:
 
-- [`cogsci_full_paper_template_anonymized.dotx`](word/cogsci_full_paper_template_anonymized.dotx) — 6-page full paper template, anonymized ([PDF](word/cogsci_full_paper_template_anonymized.pdf))
-- [`cogsci_full_paper_template_deanonymized.dotx`](word/cogsci_full_paper_template_deanonymized.dotx) — 6-page full paper template, deanonymized ([PDF](word/cogsci_full_paper_template_deanonymized.pdf))
+- [`cogsci_full_paper_template.dotx`](word/cogsci_full_paper_template.dotx) — 6-page full paper template ([anonymized PDF](word/cogsci_full_paper_template_anonymized.pdf), [deanonymized PDF](word/cogsci_full_paper_template_deanonymized.pdf))
 - [`cogsci_2page_short_summary_template.dotx`](word/cogsci_2page_short_summary_template.dotx) — 2-page short summary template ([PDF](word/cogsci_2page_short_summary_template.pdf))
 
 The template files are in `.dotx` format (not `.docx`). When you open, edit, and save a template, Word will prompt you to save the edited version as a `.docx` file.
 
-**Anonymization:** Use the anonymized template for the initial submission; use the deanonymized template for the final camera-ready version.
+**Anonymization:** The full paper template is initialized with deanonymized authors. Be sure to anonymize the initial submission and ensure that the text of the paper (starting with the abstract) begins no less than 2.75 inches below the top of the page.
+
