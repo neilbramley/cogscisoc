@@ -3,7 +3,7 @@
 // Sample Typst Two-Page Summary -- Proceedings Format
 //
 
-#import "@preview/cogsci-conference:0.1.2": cogsci, format-authors
+#import "@preview/cogsci-conference:0.1.3": cogsci, format-authors
 
 #let hyphenate = true // Set to false to disable hyphenation (useful for proofreading)
 

@@ -26,8 +26,8 @@ Files in the [`latex/`](latex/) directory include:
 
 - [`cogsci_full_paper_template.tex`](latex/cogsci_full_paper_template.tex) — 6-page full paper template ([anonymized PDF](latex/cogsci_full_paper_template_anonymized.pdf), [deanonymized PDF](latex/cogsci_full_paper_template_deanonymized.pdf))
 - [`cogsci_2page_short_summary_template.tex`](latex/cogsci_2page_short_summary_template.tex) — 2-page short summary template ([PDF](latex/cogsci_2page_short_summary_template.pdf))
-- [`cogsci.sty`](latex/cogsci.sty) — style file
 - [`cogsci_bibliography_template.bib`](latex/cogsci_bibliography_template.bib) — example BibLaTeX bibliography
+- [`cogsci.sty`](latex/cogsci.sty) — style file (used by the .tex files; you shouldn't modify it)
 
 **Anonymization:** The full paper template anonymizes authors by default. Use `\cogscifinalcopy` to deanonymize the final camera-ready version.
 
@@ -51,7 +51,7 @@ Templates require the fonts [TeX Gyre Termes](https://www.gust.org.pl/projects/e
 
 ### Typst Web App
 
-The [`cogsci-conference`](https://typst.app/universe/package/cogsci-conference) template is available in the [Typst web app](https://typst.app/). To use it, click "Start from template" on the dashboard and search for `cogsci-conference`. If you don't see the dashboard when you visit <https://typst.app/>, you need to create and/or log in to an account.
+The `cogsci-conference` template is available in the [Typst web app](https://typst.app/). To use it, click the "**Create project in app**" button on the [Typst Universe `cogsci-conference` page](https://typst.app/universe/package/cogsci-conference).
 
 ### Local Usage
 
@@ -78,10 +78,9 @@ Specifying a [PDF standard](https://typst.app/docs/reference/pdf/#pdf-standards)
 
 Files in the [`word/`](word/) directory include:
 
-- [`cogsci_full_paper_template_anonymized.dotx`](word/cogsci_full_paper_template_anonymized.dotx) — 6-page full paper template, anonymized ([PDF](word/cogsci_full_paper_template_anonymized.pdf))
-- [`cogsci_full_paper_template_deanonymized.dotx`](word/cogsci_full_paper_template_deanonymized.dotx) — 6-page full paper template, deanonymized ([PDF](word/cogsci_full_paper_template_deanonymized.pdf))
+- [`cogsci_full_paper_template.dotx`](word/cogsci_full_paper_template.dotx) — 6-page full paper template ([anonymized PDF](word/cogsci_full_paper_template_anonymized.pdf), [deanonymized PDF](word/cogsci_full_paper_template_deanonymized.pdf))
 - [`cogsci_2page_short_summary_template.dotx`](word/cogsci_2page_short_summary_template.dotx) — 2-page short summary template ([PDF](word/cogsci_2page_short_summary_template.pdf))
 
 The template files are in `.dotx` format (not `.docx`). When you open, edit, and save a template, Word will prompt you to save the edited version as a `.docx` file.
 
-**Anonymization:** Use the anonymized template for the initial submission; use the deanonymized template for the final camera-ready version.
+**Anonymization:** The full paper template is initialized with deanonymized authors. Be sure to anonymize the initial submission and ensure that the text of the paper (starting with the abstract) begins no less than 2.75 inches below the top of the page.

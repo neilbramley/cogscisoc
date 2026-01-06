@@ -3,7 +3,7 @@
 // Sample Typst Paper -- Proceedings Format
 //
 
-#import "@preview/cogsci-conference:0.1.2": cogsci, format-authors
+#import "@preview/cogsci-conference:0.1.3": cogsci, format-authors
 
 #let anonymize = true // Set to false for the final submission
 

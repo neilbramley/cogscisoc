@@ -19,27 +19,44 @@
 %% PACKAGE OPTIONS
 %%----------------------------------------------------------------------
 %%
-%% Pass options when loading the package:
+%% Usage: \usepackage[<options>]{cogsci}
 %%
-%%   \usepackage[<options>]{cogsci}
+%% Typical usage examples:
+%%   For the two-page summary format, use the `twopagesummary` option.
+%%     \usepackage[twopagesummary]{cogsci}
+%%   The full paper format is anonymized by default. Use the `final` option to show the author information.
+%%     \usepackage[final]{cogsci}
+%%   To disable the authblk package and manually format the author information.
+%%     \usepackage[final,customauthors]{cogsci} ... \author{...}
 %%
-%% Available options:
+%% SUBMISSION TYPE
+%%   type=fullpaper        Full paper submission (default)
+%%   type=twopagesummary   Two-page summary: always shows authors (overrides final=false), omits "Abstract" heading
+%%   twopagesummary        Shorthand for type=twopagesummary
 %%
-%%   authblk            Use authblk package for authors/affiliations (default)
-%%   customauthors      Disable authblk; pass manually-formatted content using \author{}
+%% ANONYMIZATION
+%%   final=false           Anonymous submission for review (default)
+%%   final, final=true     Camera-ready submission with author names
+%%
+%% CONDITIONAL PACKAGE LOADING
+%%
+%%   authblk=true, authblk   Use authblk package (default)
+%%   authblk=false           Disable authblk; use manual \author{} formatting
+%%   customauthors=true, customauthors   Same as authblk=false
+%%   customauthors=false     Same as authblk=true
+%%
+%%   hyperref=true, hyperref   Auto-load hyperref at end of preamble (default)
+%%   hyperref=false, nohyperref   Do not auto-load hyperref
+%%
+%%   Note: Auto-loading requires LaTeX 2020-10-01 or later.
 %%
 %%----------------------------------------------------------------------
 %% USER COMMANDS
 %%----------------------------------------------------------------------
 %%
-%% Submission mode commands (place in preamble):
-%%
 %%   \cogscifinalcopy
-%%       Mark as final (camera-ready) submission. Shows author names.
-%%       Omit this command for anonymous review submission.
-%%
-%%   \twopagesummarysubmission
-%%       Mark as two-page summary submission. Shows author names and omits the "Abstract" heading.
+%%       Equivalent to final=true. Overrides package option if already set.
+%%       Deprecation planned for future version in favor of package option.
 %%
 %%----------------------------------------------------------------------
 %% AUTHOR/AFFILIATION SYNTAX
@@ -80,23 +97,101 @@
 
 %% Internal boolean flags
 \bool_new:N \g_cogsci_manualauthorformatting_bool  % true = disable authblk
+\bool_new:N \g_cogsci_customauthors_set_bool       % true = customauthors option was used
+\bool_new:N \g_cogsci_customauthors_value_bool     % value of customauthors option (true/false)
 \bool_new:N \g_cogsci_final_bool                   % true = show authors
 \bool_new:N \g_cogsci_twopagesummary_bool          % true = two-page mode
+\bool_new:N \g_cogsci_hyperref_bool                % true = auto-load hyperref
+\bool_gset_true:N \g_cogsci_hyperref_bool          % default: load hyperref
 
 %% Define package options
 \keys_define:nn { cogsci }
 {
   %% customauthors: enable manual author formatting (disable authblk)
-  customauthors .bool_gset:N = \g_cogsci_manualauthorformatting_bool,customauthors .default:n = true,%
+  %% Takes precedence over authblk in post-processing
+  customauthors .code:n = { \bool_gset_true:N \g_cogsci_customauthors_set_bool \str_if_eq:nnTF { #1 }
+      { false } { \bool_gset_false:N \g_cogsci_customauthors_value_bool \bool_gset_false:N
+        \g_cogsci_manualauthorformatting_bool } { \bool_gset_true:N \g_cogsci_customauthors_value_bool
+        \bool_gset_true:N \g_cogsci_manualauthorformatting_bool } }, customauthors .default:n = true,
 
-  %% authblk: explicitly use authblk package (default behavior, sets flag false)
-  authblk .code:n = { \bool_gset_false:N \g_cogsci_manualauthorformatting_bool },authblk
-  .value_forbidden:n = true,}\ExplSyntaxOff
+  %% authblk: control authblk package loading (default: true)
+  %% authblk=true → load authblk, authblk=false → skip authblk
+  authblk .code:n = { \str_if_eq:nnTF { #1 } { false } { \bool_gset_true:N
+        \g_cogsci_manualauthorformatting_bool } { \bool_gset_false:N \g_cogsci_manualauthorformatting_bool
+      } }, authblk .default:n = true,
+
+  %% type: submission type (default: fullpaper)
+  %% type=fullpaper → standard full paper submission
+  %% type=twopagesummary → two-page summary (forces deanonymization, omits "Abstract" heading)
+  type .choice:, type / fullpaper .code:n = { \bool_gset_false:N \g_cogsci_twopagesummary_bool },
+  type / twopagesummary .code:n = { \bool_gset_true:N \g_cogsci_twopagesummary_bool }, type
+  .initial:n = fullpaper,
+
+  %% twopagesummary: shorthand for type=twopagesummary
+  twopagesummary .code:n = { \bool_gset_true:N \g_cogsci_twopagesummary_bool }, twopagesummary
+  .value_forbidden:n = true,
+
+  %% final: mark as final (camera-ready) submission (default: false)
+  %% Supports: final, final=true, final=false
+  %% Note: \cogscifinalcopy command can override this setting later in preamble
+  final .bool_gset:N = \g_cogsci_final_bool, final .default:n = true,
+
+  %% hyperref: control automatic hyperref loading (default: true)
+  %% Supports: hyperref, hyperref=true, hyperref=false
+  hyperref .bool_gset:N = \g_cogsci_hyperref_bool, hyperref .default:n = true,
+
+  %% nohyperref: disable automatic hyperref loading (alias for hyperref=false)
+  nohyperref .code:n = { \bool_gset_false:N \g_cogsci_hyperref_bool }, nohyperref .value_forbidden:n
+  = true, } \ExplSyntaxOff
 
 %% Process options (with fallback for older LaTeX)
 \IfFormatAtLeastTF { 2022-06-01 }%
 { \ProcessKeyOptions [ cogsci ] }%
 { \RequirePackage { l3keys2e } \ProcessKeysOptions { cogsci } }
+
+%% Post-processing: enforce option precedence regardless of order
+\ExplSyntaxOn
+%% twopagesummary forces final=true
+\bool_if:NT \g_cogsci_twopagesummary_bool
+{ \bool_gset_true:N \g_cogsci_final_bool }
+%% customauthors takes precedence over authblk (if explicitly set)
+\bool_if:NT \g_cogsci_customauthors_set_bool
+{ \bool_gset_eq:NN \g_cogsci_manualauthorformatting_bool \g_cogsci_customauthors_value_bool }
+\ExplSyntaxOff
+
+%%----------------------------------------------------------------------
+%% Required packages
+%%----------------------------------------------------------------------
+
+%% PDF text extraction (complements automatic glyphtounicode in LaTeX 2021+)
+\RequirePackage{cmap}
+
+%% Font encoding: 8-bit fonts for proper hyphenation and text extraction
+\RequirePackage[T1]{fontenc}
+
+%% Language support
+\RequirePackage[american]{babel}
+
+%% Context-sensitive quotation marks (recommended by biblatex)
+\RequirePackage[style=american]{csquotes}
+
+%% Times-compatible text and math fonts
+\RequirePackage{newtxtext}
+\RequirePackage{newtxmath}
+
+%% Pre-configure biblatex for APA style
+\PassOptionsToPackage{style=apa}{biblatex}
+
+%% Pre-configure hyperref options (applied whether auto-loaded or manually loaded)
+\PassOptionsToPackage{hidelinks}{hyperref}
+
+%%----------------------------------------------------------------------
+%% Package option pass-through
+%%----------------------------------------------------------------------
+%% Pre-configure optional packages that users may load.
+%% Disables protrusion to prevent characters from exceeding margin boundaries.
+
+\PassOptionsToPackage{protrusion=false}{microtype}
 
 %%----------------------------------------------------------------------
 %% User commands: submission mode
@@ -106,27 +201,20 @@
 %% \cogscifinalcopy directive
 \NewDocumentCommand { \cogscifinalcopy } { }
 { \bool_gset_true:N \g_cogsci_final_bool }
-
-%% \twopagesummarysubmission directive
-\NewDocumentCommand { \twopagesummarysubmission } { }
-{ \bool_gset_true:N \g_cogsci_twopagesummary_bool }
 \ExplSyntaxOff
 
 %%----------------------------------------------------------------------
 %% Internal: author display logic
 %%----------------------------------------------------------------------
-%% display authors or anonymous placeholder
+%% Display authors if final=true, otherwise show anonymous placeholder.
+%% Note: twopagesummary sets final=true during post-processing.
 
 \ExplSyntaxOn
 \cs_new_protected:Npn \__cogsci_show_author_or_anon:
 {
   \bool_if:NTF \g_cogsci_final_bool
   { \@author }
-  {
-    \bool_if:NTF \g_cogsci_twopagesummary_bool
-    { \@author }
-    { { \large \bfseries Anonymous~ CogSci~ submission } }
-  }
+  { { \large \bfseries Anonymous~ CogSci~ submission } }
 }
 %% Wrapper for use in \@maketitle (outside expl3 syntax)
 \cs_new_eq:NN \cogsci@showauthor \__cogsci_show_author_or_anon:
@@ -406,6 +494,30 @@
 \renewcommand\huge{\@setfontsize\huge{17}{20}}
 \renewcommand\Huge{\@setfontsize\Huge{20}{23}}
 \normalsize
+
+%%----------------------------------------------------------------------
+%% Hyperref auto-loading
+%%----------------------------------------------------------------------
+%% Automatically load hyperref at end of preamble (begindocument/before hook).
+%% This follows hyperref documentation: "If you want to delay the loading,
+%% use the begindocument/before hook." Do NOT use begindocument or \AtBeginDocument.
+%%
+%% Requires LaTeX 2020-10-01 or later for hook support.
+%% On older LaTeX versions, hyperref is not auto-loaded; users must load it manually.
+
+\ExplSyntaxOn
+\IfFormatAtLeastTF { 2020-10-01 }
+{
+  \bool_if:NT \g_cogsci_hyperref_bool
+  {
+    \AddToHook { begindocument/before }
+    {
+      \@ifpackageloaded { hyperref } { } { \RequirePackage { hyperref } }
+    }
+  }
+}
+{ } % No fallback: hyperref not auto-loaded on older LaTeX
+\ExplSyntaxOff
 
 %%----------------------------------------------------------------------
 %% End of cogsci.sty
