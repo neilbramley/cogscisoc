@@ -30,7 +30,7 @@
     ),
   ),
   abstract: [
-    Include no author information in the initial submission, to facilitate blind review. AI tools cannot be listed as authors, and authors retain full responsibility for the accuracy, integrity, and originality of all content in their manuscripts. This includes verifying factual claims, ensuring proper attribution of ideas, and confirming that the work meets standards for academic integrity and does not contain plagiarized content. See the Acknowledgments section of the template for AI use declaration and acknowledgment. The abstract should be one paragraph, no more than 150~words, indented 1/8~inch on both sides, in 9~point font with single spacing. The heading "*Abstract*" should be 10~point, bold, centered, with one line of space below it. This one-paragraph abstract section is required only for standard proceedings papers. Following the abstract should be a blank line, followed by the header "*Keywords:*" and a list of descriptive keywords separated by semicolons, all in 9~point font, as shown below.
+    Include no author information in the initial submission, to facilitate blind review. AI tools cannot be listed as authors, and authors retain full responsibility for the accuracy, integrity, and originality of all content in their manuscripts. This includes verifying factual claims, ensuring proper attribution of ideas, and confirming that the work meets standards for academic integrity and does not contain plagiarized content. See the Declaration of Generative AI Use section of the template for how to declare AI use. The abstract should be one paragraph, no more than 150~words, indented 1/8~inch on both sides, in 9~point font with single spacing. The heading "*Abstract*" should be 10~point, bold, centered, with one line of space below it. This one-paragraph abstract section is required only for standard proceedings papers. Following the abstract should be a blank line, followed by the header "*Keywords:*" and a list of descriptive keywords separated by semicolons, all in 9~point font, as shown below.
   ],
   keywords: (
     "add your choice of indexing terms or keywords",
@@ -44,7 +44,7 @@
 
 = General Formatting Instructions
 
-The paper can be no longer than six pages plus an unlimited number of pages for references in the *initial submission*. In the *final submission*, the text of the paper, including an author line, must fit on six pages. An unlimited number of pages can be used for acknowledgments and references.
+The paper can be no longer than six pages plus an unlimited number of pages for the declaration of generative AI use and references in the *initial submission*. In the *final submission*, the text of the paper, including an author line, must fit on six pages. An unlimited number of pages can be used for the declaration of generative AI use, acknowledgments, and references.
 
 The *title* should be in 14~point bold font, centered. The title should be formatted with initial caps (the first letter of content words capitalized and the rest lower case). In the *initial submission*, leave one space below the title and on the next line include the phrase "Anonymous CogSci submission", centered, in 11~point bold font. In the *final submission*, leave one space below the title, then list author names (on one line, though if there are many authors this will continue on subsequent lines) in 11~point bold font, and centered, with superscript numerals that will correspond to author affiliation. The *corresponding author's* email address and no other email addresses should be placed in parentheses next to their name in the author list. Starting on the next line, list authors' affiliations using the corresponding superscript numeral and including only the department/unit and organization in ordinary 10~point type, one affiliation per line.
 
@@ -111,9 +111,14 @@ All artwork must be very dark for purposes of reproduction and should not be han
 ) <sample-figure>
 
 
+= Declaration of Generative AI Use
+
+Authors may use AI tools when developing their projects and preparing their manuscripts, but such use must be described transparently and in detail, including the tool name, version number (if applicable), and purpose. Please include descriptions of AI use both in the initial and final submissions.
+
+
 = Acknowledgments
 
-In the *initial submission*, please only include acknowledgments of AI use and no other acknowledgments to preserve anonymity. Regarding AI use: Authors may use AI tools when developing their projects and preparing their manuscripts, but such use must be described, transparently and in detail, in either the Methods or Acknowledgments section, as appropriate. Tools that are used to improve spelling, grammar, and general editing are not included in the scope of these guidelines. In the *final submission*, place acknowledgments (including human and AI contributions, and funding information) in a section *at the end of the paper*.
+In the *initial submission*, please *do not include acknowledgments*, to preserve anonymity. In the *final submission*, place acknowledgments (including funding information) in a section *at the end of the paper*.
 
 
 = References Instructions

@@ -4,7 +4,7 @@
 %%----------------------------------------------------------------------
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{cogsci}[2025/12/01 v2.0 CogSci Conference Style]
+\ProvidesPackage{cogsci}[2026-11-21 v2.2027.0 CogSci Conference Style]
 
 %%======================================================================
 %% USAGE
@@ -24,19 +24,21 @@
 %% Typical usage examples:
 %%   For the two-page summary format, use the `twopagesummary` option.
 %%     \usepackage[twopagesummary]{cogsci}
-%%   The full paper format is anonymized by default. Use the `final` option to show the author information.
-%%     \usepackage[final]{cogsci}
+%%   The full paper format is anonymized by default. Set the `anonymize` option to false to show the author information.
+%%     \usepackage[anonymize=false]{cogsci}
 %%   To disable the authblk package and manually format the author information.
-%%     \usepackage[final,customauthors]{cogsci} ... \author{...}
+%%     \usepackage[anonymize=false,customauthors]{cogsci} ... \author{...}
 %%
 %% SUBMISSION TYPE
 %%   type=fullpaper        Full paper submission (default)
-%%   type=twopagesummary   Two-page summary: always shows authors (overrides final=false), omits "Abstract" heading
+%%   type=twopagesummary   Two-page summary: always shows authors (overrides anonymize=true), omits "Abstract" heading
 %%   twopagesummary        Shorthand for type=twopagesummary
 %%
 %% ANONYMIZATION
-%%   final=false           Anonymous submission for review (default)
-%%   final, final=true     Camera-ready submission with author names
+%%   anonymize, anonymize=true   Anonymous submission for review (default)
+%%   anonymize=false             Camera-ready submission with author names
+%%
+%%   The `final` option of earlier versions was removed; using it raises an error.
 %%
 %% CONDITIONAL PACKAGE LOADING
 %%
@@ -55,8 +57,8 @@
 %%----------------------------------------------------------------------
 %%
 %%   \cogscifinalcopy
-%%       Equivalent to final=true. Overrides package option if already set.
-%%       Deprecation planned for future version in favor of package option.
+%%       Deprecated; issues a warning. Use \usepackage[anonymize=false]{cogsci} instead.
+%%       Still shows the authors, overriding anonymize=true.
 %%
 %%----------------------------------------------------------------------
 %% AUTHOR/AFFILIATION SYNTAX
@@ -99,10 +101,15 @@
 \bool_new:N \g_cogsci_manualauthorformatting_bool  % true = disable authblk
 \bool_new:N \g_cogsci_customauthors_set_bool       % true = customauthors option was used
 \bool_new:N \g_cogsci_customauthors_value_bool     % value of customauthors option (true/false)
-\bool_new:N \g_cogsci_final_bool                   % true = show authors
+\bool_new:N \g_cogsci_anonymize_bool               % true = anonymous placeholder instead of authors
 \bool_new:N \g_cogsci_twopagesummary_bool          % true = two-page mode
 \bool_new:N \g_cogsci_hyperref_bool                % true = auto-load hyperref
 \bool_gset_true:N \g_cogsci_hyperref_bool          % default: load hyperref
+
+%% Errors for package options cogsci does not define
+\msg_new:nnn { cogsci } { removed-final }
+{ The~`final`~option~was~removed~in~v2.2027.0;~use~`anonymize=false`~to~show~the~authors. }
+\msg_new:nnn { cogsci } { unknown-option } { Unknown~option~'#1'~for~package~cogsci. }
 
 %% Define package options
 \keys_define:nn { cogsci }
@@ -131,10 +138,16 @@
   twopagesummary .code:n = { \bool_gset_true:N \g_cogsci_twopagesummary_bool }, twopagesummary
   .value_forbidden:n = true,
 
-  %% final: mark as final (camera-ready) submission (default: false)
-  %% Supports: final, final=true, final=false
-  %% Note: \cogscifinalcopy command can override this setting later in preamble
-  final .bool_gset:N = \g_cogsci_final_bool, final .default:n = true,
+  %% anonymize: anonymous submission for review (default: true)
+  %% Supports: anonymize, anonymize=true, anonymize=false
+  %% Note: the deprecated \cogscifinalcopy command can override this setting later in the preamble
+  anonymize .bool_gset:N = \g_cogsci_anonymize_bool, anonymize .default:n = true, anonymize
+  .initial:n = true,
+
+  %% unknown: reject options cogsci does not define, naming the replacement for the removed `final`
+  %% Only \usepackage options reach this handler; class options apply only to keys that exist
+  unknown .code:n = { \str_if_eq:VnTF \l_keys_key_str { final } { \msg_error:nn { cogsci } {
+          removed-final } } { \msg_error:nnx { cogsci } { unknown-option } { \l_keys_key_str } } },
 
   %% hyperref: control automatic hyperref loading (default: true)
   %% Supports: hyperref, hyperref=true, hyperref=false
@@ -151,9 +164,9 @@
 
 %% Post-processing: enforce option precedence regardless of order
 \ExplSyntaxOn
-%% twopagesummary forces final=true
+%% twopagesummary always shows authors
 \bool_if:NT \g_cogsci_twopagesummary_bool
-{ \bool_gset_true:N \g_cogsci_final_bool }
+{ \bool_gset_false:N \g_cogsci_anonymize_bool }
 %% customauthors takes precedence over authblk (if explicitly set)
 \bool_if:NT \g_cogsci_customauthors_set_bool
 { \bool_gset_eq:NN \g_cogsci_manualauthorformatting_bool \g_cogsci_customauthors_value_bool }
@@ -198,23 +211,31 @@
 %%----------------------------------------------------------------------
 
 \ExplSyntaxOn
-%% \cogscifinalcopy directive
+%% \cogscifinalcopy directive (deprecated): still shows the authors, overriding anonymize=true, and warns
+\msg_new:nnn { cogsci } { deprecated-finalcopy }
+{
+  \iow_char:N\\cogscifinalcopy~is~deprecated.~
+  Use~\iow_char:N\\usepackage[anonymize=false]\{cogsci\}~instead.
+}
 \NewDocumentCommand { \cogscifinalcopy } { }
-{ \bool_gset_true:N \g_cogsci_final_bool }
+{
+  \msg_warning:nn { cogsci } { deprecated-finalcopy }
+  \bool_gset_false:N \g_cogsci_anonymize_bool
+}
 \ExplSyntaxOff
 
 %%----------------------------------------------------------------------
 %% Internal: author display logic
 %%----------------------------------------------------------------------
-%% Display authors if final=true, otherwise show anonymous placeholder.
-%% Note: twopagesummary sets final=true during post-processing.
+%% Display the anonymous placeholder if anonymize=true, otherwise the authors.
+%% Note: twopagesummary sets anonymize=false during post-processing.
 
 \ExplSyntaxOn
 \cs_new_protected:Npn \__cogsci_show_author_or_anon:
 {
-  \bool_if:NTF \g_cogsci_final_bool
-  { \@author }
+  \bool_if:NTF \g_cogsci_anonymize_bool
   { { \large \bfseries Anonymous~ CogSci~ submission } }
+  { \@author }
 }
 %% Wrapper for use in \@maketitle (outside expl3 syntax)
 \cs_new_eq:NN \cogsci@showauthor \__cogsci_show_author_or_anon:
@@ -350,16 +371,16 @@
     \vskip 1em
   }
   \begin{list}{}{%
-      \setlength{\leftmargin}{0.125in}%
-      \setlength{\rightmargin}{0.125in}%
-      \setlength{\topsep}{0pt}%
-      \setlength{\partopsep}{0pt}%
-      \setlength{\itemsep}{0pt}%
-      \setlength{\parsep}{10pt}% one blank line (matches 9/10 baselineskip)
-    }\item\relax
-          \small
-          }
-          {\par
+    \setlength{\leftmargin}{0.125in}%
+    \setlength{\rightmargin}{0.125in}%
+    \setlength{\topsep}{0pt}%
+    \setlength{\partopsep}{0pt}%
+    \setlength{\itemsep}{0pt}%
+    \setlength{\parsep}{10pt}% one blank line (matches 9/10 baselineskip)
+  }\item\relax
+  \small
+}
+{\par
   \end{list}
 }
 \ExplSyntaxOff

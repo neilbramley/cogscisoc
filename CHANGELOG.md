@@ -1,5 +1,17 @@
 # Changelog
 
+## 2027
+
+### v2.2027.0
+
+- Update instructions for the 2027 Conference
+  - Add *Declaration of Generative AI Use*
+- LaTeX
+  - Deprecate the `\cogscifinalcopy` document command in favor of l3keys package option (`anonymize=false`). The full paper template now uses `\usepackage[anonymize=true]{cogsci}`
+  - Align semantics with Typst package (`final` replaced by `anonymize`)
+- Typst
+  - Update the technical report BibLaTeX example with hack for Typst 0.15
+
 ## 2026
 
 ### v2.2026.1
@@ -92,21 +104,20 @@
 ## 2019
 
 - Introduce double-blind reviewing for 6-page paper submissions
-- Add author anonymity switch to templates
-- Add author anonymity switch to `cogsci.sty`, borrowing from ACL style files (Roger Levy, rplevy@mit.edu, MIT, 12/31/2018)
-- Add `float` package; change figure/table placement to `[H]` for conformity with Word template (Roger Levy, rplevy@mit.edu, MIT, 12/31/2018)
+- Add author anonymity switch to `cogsci.sty`, borrowing from ACL style files (Roger Levy, `rplevy@mit.edu`, MIT, 12/31/2018)
+- Add `float` package; change figure/table placement to `[H]` for conformity with Word template (Roger Levy, `rplevy@mit.edu`, MIT, 12/31/2018)
 
 ## 2015
 
-- Update template and bibliography (David Noelle, dnoelle@ucmerced.edu, UC Merced, 11/19/2014)
+- Update template and bibliography (David Noelle, `dnoelle@ucmerced.edu`, UC Merced, 11/19/2014)
 
 ## 2007
 
-- Modify `cogsci.sty` (Niels Taatgen, taatgen@cmu.edu, CMU, 10/24/2006)
+- Modify `cogsci.sty` (Niels Taatgen, `taatgen@cmu.edu`, CMU, 10/24/2006)
 
 ## 2006
 
-- Update template, style file, and bibliography (Eli M. Silk, esilk@pitt.edu, University of Pittsburgh, 05/24/2005)
+- Update template, style file, and bibliography (Eli M. Silk, `esilk@pitt.edu`, University of Pittsburgh, 05/24/2005)
 
 ## 2005
 
@@ -114,29 +125,29 @@
 
 ## 2001
 
-- Move customizations from sample `.tex` files to `cogsci.sty` (Mary Ellen Foster, M.E.Foster@ed.ac.uk, University of Edinburgh, 12/11/2000)
+- Move customizations from sample `.tex` files to `cogsci.sty` (Mary Ellen Foster, `M.E.Foster@ed.ac.uk`, University of Edinburgh, 12/11/2000)
 
 ## 2000
 
-- Template modifications (Trisha Yannuzzi, trisha@ircs.upenn.edu, UPenn, 12/28/1999)
+- Template modifications (Trisha Yannuzzi, `trisha@ircs.upenn.edu`, UPenn, 12/28/1999)
 
 ## 1999
 
-- Template modifications (Tina Eliassi-Rad, eliassi@cs.wisc.edu, University of Wisconsin, 01/31/1998)
+- Template modifications (Tina Eliassi-Rad, `eliassi@cs.wisc.edu`, University of Wisconsin, 01/31/1998)
 
 ## 1998
 
-- Template modifications (Pat Langley, langley@cs.stanford.edu, Stanford, 01/26/1997)
+- Template modifications (Pat Langley, `langley@cs.stanford.edu`, Stanford, 01/26/1997)
 - LaTeX 2.09 to LaTeX2e corrections (Ramin Charles Nakisa, 01/28/1997)
 
 ## 1997
 
-- Template modifications (David Noelle, noelle@ucsd.edu, UCSD, 03/15/1996)
+- Template modifications (David Noelle, `noelle@ucsd.edu`, UCSD, 03/15/1996)
 
 ## 1996
 
-- Template modifications (Johanna Moore, jmoore@cs.pitt.edu, University of Pittsburgh, 03/17/1995)
+- Template modifications (Johanna Moore, `jmoore@cs.pitt.edu`, University of Pittsburgh, 03/17/1995)
 
 ## 1995
 
-- Original template created, based on earlier style files for IJCAI-89, AAAI-90, COGSCI-91 (Ashwin Ram, ashwin@cc.gatech.edu, Georgia Tech, 04/01/1994)
+- Original template created, based on earlier style files for IJCAI-89, AAAI-90, COGSCI-91 (Ashwin Ram, `ashwin@cc.gatech.edu`, Georgia Tech, 04/01/1994)

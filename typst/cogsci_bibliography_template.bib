@@ -24,19 +24,20 @@
 }
 
 % Technical report %
-% Hayagriva (v0.9.1), Typst's bibliography backend, ignores the 'institution' field; use the 'publisher' field instead
+% Hayagriva (v0.10.1), Typst's bibliography backend, omits 'institution' from APA references; use 'publisher' instead
+% Hayagriva (v0.10.1) treats 'EX-TR-85-1' as non-numeric, so Typst's APA style omits "No."; 'type' adds it
 @report{FitzgeraldGalli1985,
   author      = {Fitzgerald, Guadalupe H. and Galli, Hind I.},
   title       = {An example technical report},
   publisher   = {Some University, Department of Hypothetical Studies},
   date        = {1985},
   number      = {EX-TR-85-1},
-  type        = {Report}
+  type        = {Report No.}
 }
 
 % Doctoral dissertation %
-% Hayagriva (v0.9.1) ignores the 'institution' field; use the 'publisher' field instead
-% NB This Hayagriva limitation prevents listing a database/repository
+% Hayagriva (v0.10.1) omits 'institution' from APA references; use 'publisher' instead
+% Hayagriva (v0.10.1) maps no BibLaTeX field to CSL 'archive', so this entry omits the repository (the LaTeX version's 'publisher')
 @phdthesis{Hakuole2001,
   author      = {Hakuole, Indra J.},
   title       = {An example thesis title},
@@ -46,10 +47,10 @@
 }
 
 % Chapter in edited book %
-% The BibLaTeX norm is to use "incollection", but a Hayagriva (v0.9.1) bug maps this to the wrong CSL type, so use "inbook" as a workaround
+% The BibLaTeX norm is to use "incollection", but a Hayagriva (v0.10.1) bug maps this to the wrong type, so use "inbook" as a workaround
 @inbook{Issa1963,
   author    = {Issa, Jin K.},
-  title     = {An Example book chapter in an edited volume},
+  title     = {An example book chapter in an edited volume},
   booktitle = {Example edited volume title},
   editor    = {Juliet, Kaya L. and Kapoor, Liwei M.},
   publisher = {Some Academic Press},
@@ -58,7 +59,7 @@
 }
 
 % Edited volume %
-% The BibLaTeX norm is to use "collection", but a Hayagriva (v0.9.1) bug maps this to the wrong CSL type, so use "book" as a workaround
+% The BibLaTeX norm is to use "collection", but a Hayagriva (v0.10.1) bug maps this to the wrong CSL type, so use "book" as a workaround
 @book{Lobsang2023,
   editor    = {Lobsang, Mingyur N.},
   title     = {Example edited volume title},

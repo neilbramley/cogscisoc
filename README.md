@@ -12,9 +12,13 @@ Beginning in 2019, 6-page full paper submissions are reviewed double-blind, so s
 
 ### Page Limits
 
-In the *initial submission*, full papers can be no longer than six pages plus an unlimited number of pages for references. In the *final submission*, full papers (including the title and authors) can be no longer than six pages plus an unlimited number of pages for acknowledgments and references.
+In the *initial submission*, full papers can be no longer than six pages plus an unlimited number of pages for the declaration of generative AI use and references. In the *final submission*, full papers (including the title and authors) can be no longer than six pages plus an unlimited number of pages for the declaration of generative AI use, acknowledgments, and references.
 
 The text of the paper should be formatted in two columns with an overall width of 7 inches and length of 9.25 inches, with 0.25 inches between the columns. Leave two line spaces between the last author affiliation and the text of the paper; the text of the paper (starting with the abstract) should begin no less than 2.75 inches below the top of the page. The left margin should be 0.75 inches and the top margin should be 1 inch.
+
+### Declaration of Generative AI Use
+
+Authors may use AI tools when developing their projects and preparing their manuscripts, but such use must be described transparently and in detail, including the tool name, version number (if applicable), and purpose. Please include descriptions of AI use both in the initial and final submissions.
 
 ### CC-BY Licensing
 
@@ -29,7 +33,7 @@ Files in the [`latex/`](latex/) directory include:
 - [`cogsci_bibliography_template.bib`](latex/cogsci_bibliography_template.bib) — example BibLaTeX bibliography
 - [`cogsci.sty`](latex/cogsci.sty) — style file (used by the .tex files; you shouldn't modify it)
 
-**Anonymization:** The full paper template anonymizes authors by default. Use `\cogscifinalcopy` to deanonymize the final camera-ready version.
+**Anonymization:** The full paper template is initialized to anonymize authors[^package-option-anonymize]. Set `anonymize=false` for the final camera-ready version (i.e., `\usepackage[anonymize=false]{cogsci}`).
 
 ### Overleaf Web App
 
@@ -84,3 +88,5 @@ Files in the [`word/`](word/) directory include:
 The template files are in `.dotx` format (not `.docx`). When you open, edit, and save a template, Word will prompt you to save the edited version as a `.docx` file.
 
 **Anonymization:** The full paper template is initialized with deanonymized authors. Be sure to anonymize the initial submission and ensure that the text of the paper (starting with the abstract) begins no less than 2.75 inches below the top of the page.
+
+[^package-option-anonymize]: `\usepackage[anonymize=true]{cogsci}`, `\usepackage[anonymize]{cogsci}`, and `\usepackage{cogsci}` are equivalent.
